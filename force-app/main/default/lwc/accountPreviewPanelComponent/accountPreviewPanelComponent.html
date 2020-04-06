@@ -1,0 +1,22 @@
+<template>
+    <lightning-card variant="Narrow" title="Account Preview" icon-name="standard:account">
+        <lightning-button-menu alternative-text="Show menu" menu-alignment="right" slot="actions">
+            <lightning-menu-item label="Edit" value="Edit" onclick={handleEdit}></lightning-menu-item>
+            <lightning-menu-item label="Set as Primay Contact" value="Set as Primary Contact" onclick={handlePrimary}></lightning-menu-item>
+        </lightning-button-menu>
+        <div class="slds-m-around_medium">
+            <template if:true={con}>
+                <lightning-input type="text" name="input1" label="Name" value={con.Account.Name} onchange={handleUpdate} disabled={disabled} class="slds-m-bottom_x-small"></lightning-input>
+                <lightning-input type="text" name="input2" label="Description" onchange={handleUpdate} value={con.Account.Description} disabled={disabled} class="slds-m-bottom_x-small"></lightning-input>
+                <lightning-input type="date" name="input3" label="Created Date" value={con.Account.CreatedDate} disabled class="slds-m-bottom_x-small"></lightning-input>
+                <lightning-input type="checkbox" label="Primary" checked={con.Is_Primary__c} disabled></lightning-input>
+            </template>
+        </div>
+        <div slot="footer">
+            <template if:false={disabled}>
+                <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+                <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+            </template>
+        </div>
+    </lightning-card>
+</template>
