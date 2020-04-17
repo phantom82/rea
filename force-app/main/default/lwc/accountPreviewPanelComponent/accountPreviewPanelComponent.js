@@ -29,14 +29,8 @@ export default class AccountPreviewPanelComponent extends LightningElement {
             this.con = result.data; 
             this.aname = this.con.Account.Name;
             this.adescription = this.con.Account.Description;          
-        } else if (result.error) {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error on data load',
-                    message: result.error.body.message,
-                    variant: 'error',
-                }),
-            );
+        }else if(result.error) {
+            this.showMsg('Error on data load',result.error.body.message,'error');
         }
     }
 
@@ -55,42 +49,33 @@ export default class AccountPreviewPanelComponent extends LightningElement {
     }
 
     refreshData() {
-        console.log('inside');
         return refreshApex(this._con);
     }
 
     //update the contact to be set as Primary for account
     handlePrimary(event) {
         if(this.con.Is_Primary__c == true) {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Information',
-                    message: 'Contact is already a Primary Contact.',
-                    variant: 'warning',
-                }),
-            );
+            this.showMsg('Information','Contact is already a Primary Contact.','warning');
         }else {
             setPrimaryContact({
                 cId: this.recordId
             }).then((result) => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Record Is Updated',
-                        variant: 'sucess',
-                    }),
-                );
+                this.showMsg('Success','Record Is Updated','sucess');
                 this.refreshData();
             }).catch((error) => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error on data save',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
+                this.showMsg('Error on data save',error.body.message,'error');
             });
         }
+    }
+
+    showMsg(t, m, v) {
+        return this.dispatchEvent(
+            new ShowToastEvent({
+                title: t,
+                message: m,
+                variant: v,
+            }),
+        ); 
     }
 
     //updates the account as per given input
@@ -101,24 +86,12 @@ export default class AccountPreviewPanelComponent extends LightningElement {
             name: this.aname, 
             description: this.adescription
         }).then((result) => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Record Is Updated',
-                    variant: 'sucess',
-                }),
-            ); 
+            this.showMsg('Success','Record Is Updated','sucess');
             this.refreshData();
             this.disabled = true;
         }).catch((error) => {
             this.disabled = false;
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error on data save',
-                    message: error.body.message,
-                    variant: 'error',
-                }),
-            );
+            this.showMsg('Error on data save',error.body.message,'error');
         });
     }
 
