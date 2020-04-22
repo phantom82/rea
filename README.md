@@ -9,7 +9,7 @@ LWC component 'accountPanelPreviewComponent' does the following:
     
 
 # Installation
-1. Push git source into a scratch org
+1. Pull git source into a scratch org
 2. Create an Account and a contact for testing
 3. Goto Contact Object's Flexi pages and Activate 'Contact Record Page'. 
 4. Test.
